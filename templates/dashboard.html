@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>AI DevOps Copilot</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>AI DevOps Copilot</h1>
+
+<div class="card">
+<input id="apiUrl" placeholder="Enter API URL">
+<button onclick="monitor()">Monitor API</button>
+</div>
+
+<div class="card" id="result"></div>
+
+</div>
+
+<script>
+
+async function monitor(){
+
+let url = document.getElementById("apiUrl").value
+
+let response = await fetch("/monitor",{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:`api_url=${url}`
+})
+
+let data = await response.json()
+
+document.getElementById("result").innerHTML=`
+
+<p>Status Code: ${data.status}</p>
+<p>Response Time: ${data.response_time} ms</p>
+<p>Errors: ${data.errors}</p>
+<p>Warnings: ${data.warnings}</p>
+<p>Incident: ${data.incident}</p>
+
+`
+}
+
+</script>
+
+</body>
+</html>
